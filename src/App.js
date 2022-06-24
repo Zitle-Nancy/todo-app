@@ -5,7 +5,8 @@ import Task from './component/Task'
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [areFinishedTasks, setFinishedTasks] = useState(false)
+  const [areFinishedTasks, setFinishedTasks] = useState(false);
+
   const createTask = (task) => {
     const newTask = {
       id:crypto.randomUUID(),
@@ -20,7 +21,7 @@ function App() {
     setTasks(currentTasks)
   }
 
-  const actualizarTarea = (id, tarea) => {
+  const updateTask = (id, tarea) => {
     const listaActualizada = tasks.map((elemento) => {
       if(elemento.id === id){
         elemento.title = tarea
@@ -32,7 +33,7 @@ function App() {
     setTasks(listaActualizada)
   }
 
-  const handleIsDone = (id) => {
+  const handleFinishedTask = (id) => {
     const finishedTask = tasks.map(element => {
       if(element.id === id) {
         element.isDone = !element.isDone
@@ -66,9 +67,10 @@ function App() {
             key={task.id}
             task={task}
             deleteTask={deleteTask}
-            editar={actualizarTarea}
-            handleIsDone={handleIsDone}
+            updateTask={updateTask}
+            handleFinishedTask={handleFinishedTask}
             finishedAllTasks={finishedAllTasks}
+          
             />
             
         ))}
