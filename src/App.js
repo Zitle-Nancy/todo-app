@@ -19,18 +19,21 @@ function App() {
   const deleteTask = (idTask) => {
     const currentTasks = tasks.filter((currentTask) => currentTask.id !== idTask)
     setTasks(currentTasks)
+    if(tasks.length === 0){
+      setFinishedTasks(!areFinishedTasks)
+    }
   }
 
-  const updateTask = (id, tarea) => {
-    const listaActualizada = tasks.map((elemento) => {
-      if(elemento.id === id){
-        elemento.title = tarea
+  const updateTask = (id, newTitleTask) => {
+    const updatedTasks = tasks.map((task) => {
+      if(task.id === id){
+        task.title = newTitleTask
       }
 
-      return elemento;
+      return task;
     })
 
-    setTasks(listaActualizada)
+    setTasks(updatedTasks)
   }
 
   const handleFinishedTask = (id) => {
@@ -38,16 +41,19 @@ function App() {
       if(element.id === id) {
         element.isDone = !element.isDone
       }
-
       return element
   })
 
-    setTasks(finishedTask)
+  setTasks(finishedTask)
+  const isDoneAnyTask = tasks.some(task => task.isDone === false)
+  setFinishedTasks(!isDoneAnyTask)
   }
 
   const finishedAllTasks = () => {
     setFinishedTasks(!areFinishedTasks)
-    const finishedTasks = tasks.map(task => ({...task, isDone:!areFinishedTasks}))
+    const finishedTasks = tasks.map(task => {
+      return ({...task, isDone:!areFinishedTasks})
+    })
     setTasks(finishedTasks)
   }
 
@@ -56,7 +62,7 @@ function App() {
       <FormTask createTask={createTask} />
       {!!tasks.length && 
         <Fragment>
-          <input type="checkbox" onChange={finishedAllTasks} id="finishedTasks"/>
+          <input type="checkbox" onChange={finishedAllTasks} id="finishedTasks" checked={areFinishedTasks}/>
           <label for="finishedTasks">Marcar todas las tareas como terminadas</label>
         </Fragment>
       }
@@ -70,7 +76,6 @@ function App() {
             updateTask={updateTask}
             handleFinishedTask={handleFinishedTask}
             finishedAllTasks={finishedAllTasks}
-          
             />
             
         ))}
