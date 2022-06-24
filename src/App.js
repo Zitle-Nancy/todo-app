@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import './App.css';
 import FormTask from './component/FormTask';
 import Task from './component/Task'
 
 function App() {
   const [tasks, setTasks] = useState([]);
-
+  const [allFinished, setFinished] = useState(false)
   const createTask = (task) => {
     const newTask = {
       id:crypto.randomUUID(),
       title:task,
-      isDone: false
+      isDone: allFinished,
     }
     setTasks([newTask,...tasks ])
   }
@@ -42,13 +42,24 @@ function App() {
   })
 
     setTasks(finishedTask)
+  }
 
+  const finishedAllTasks = () => {
+    setFinished(!allFinished)
+    const finishedTasks = tasks.map(task => ({...task, isDone:!allFinished}))
+    setTasks(finishedTasks)
   }
 
   return (
     <div className="App">
       <FormTask createTask={createTask} />
-
+      {!!tasks.length && 
+        <Fragment>
+          <input type="checkbox" onChange={finishedAllTasks} id="finishedTasks"/>
+          <label for="finishedTasks">Marcar todas las tareas como terminadas</label>
+        </Fragment>
+      }
+      
       <section style={{marginTop: '2rem'}}>
         {tasks.map(task => (
           <Task 
@@ -57,6 +68,7 @@ function App() {
             deleteTask={deleteTask}
             editar={actualizarTarea}
             handleIsDone={handleIsDone}
+            finishedAllTasks={finishedAllTasks}
             />
             
         ))}

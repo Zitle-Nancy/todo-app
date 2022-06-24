@@ -18,6 +18,7 @@ const Task = ({task:{title, id, isDone}, deleteTask, editar, handleIsDone}) => {
     setModeEditable(false)
   }
 
+
   return(
     <Fragment>
       {modeEditable ? 
@@ -27,8 +28,8 @@ const Task = ({task:{title, id, isDone}, deleteTask, editar, handleIsDone}) => {
       </form>
       :
       <div>
-        <input type="checkbox" onChange={() => handleIsDone(id)}/>
-        <span style={{textDecoration: `${isDone ? 'line-through' :  'auto'}`}}>{title}</span>
+        <input type="checkbox" onChange={() => handleIsDone(id)} id={id} checked={isDone}/>
+        <label for={id} style={{textDecoration: `${isDone ? 'line-through' :  'auto'}`}}>{title}</label>
         <button onClick={handleEdit}>Editar</button>
         <button onClick={() => deleteTask(id)}>Eliminar</button>
       </div> 
