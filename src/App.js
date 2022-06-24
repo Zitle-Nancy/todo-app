@@ -5,12 +5,12 @@ import Task from './component/Task'
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const [allFinished, setFinished] = useState(false)
+  const [areFinishedTasks, setFinishedTasks] = useState(false)
   const createTask = (task) => {
     const newTask = {
       id:crypto.randomUUID(),
       title:task,
-      isDone: allFinished,
+      isDone: areFinishedTasks,
     }
     setTasks([newTask,...tasks ])
   }
@@ -45,8 +45,8 @@ function App() {
   }
 
   const finishedAllTasks = () => {
-    setFinished(!allFinished)
-    const finishedTasks = tasks.map(task => ({...task, isDone:!allFinished}))
+    setFinishedTasks(!areFinishedTasks)
+    const finishedTasks = tasks.map(task => ({...task, isDone:!areFinishedTasks}))
     setTasks(finishedTasks)
   }
 
